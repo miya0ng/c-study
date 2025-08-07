@@ -25,23 +25,45 @@ public class game
             Console.Write("첫 번째 카드 위치 선택 (0-15): ");
             int firstChoice = int.Parse(Console.ReadLine());
 
-            DisplayBoard(cards, revealed);
-
-            Console.Write("두 번째 카드 위치 선택 (0-15): ");
-            int secondChoice = int.Parse(Console.ReadLine());
-            attempts++;
-
-            if (!IsValidMove(firstChoice, secondChoice, revealed))
+            if (!IsValidMove(firstChoice, revealed))
             {
                 Console.WriteLine("잘못된 선택입니다. 다시 시도하세요.");
                 continue;
             }
-            // ... 게임 진행 로직 ...
-
-            if(CheckMatch(firstChoice, secondChoice, revealed))
+            else
             {
+                revealed[firstChoice] = true;
+                DisplayBoard(cards, revealed);
+            }
+
+            Console.Write("두 번째 카드 위치 선택 (0-15): ");
+            int secondChoice = int.Parse(Console.ReadLine());
+
+            if (!IsValidMove(secondChoice, revealed))
+            {
+                Console.WriteLine("잘못된 선택입니다. 다시 시도하세요.");
+                revealed[firstChoice] = false;
+                continue;
+            }
+            else
+            {
+                revealed[secondChoice] = true;
+                DisplayBoard(cards, revealed);
+            }
+            if(CheckMatch(firstChoice, secondChoice, cards))
+            {
+                Console.WriteLine("\n\n매칭 성공!");
                 score++;
             }
+            else
+            {
+                Console.WriteLine("\n\n매칭 실패!");
+                revealed[firstChoice] = false;
+                revealed[secondChoice] = false;
+            }
+                attempts++;
+            System.Threading.Thread.Sleep(1500); // 대기
+            Console.Clear(); // 화면 클리어
         }
         Console.WriteLine($"게임 클리어! 총 시도 횟수: {attempts}");
     }
@@ -53,7 +75,6 @@ public class game
             cards[i] = i;
             cards[cards.Length - i] = i;
         }
-        Console.WriteLine();
     }
 
     static void ShuffleCards(int[] cards)
@@ -65,8 +86,9 @@ public class game
             int temp = cards[i];
             cards[i] = cards[index];
             cards[index] = temp;
-            Console.Write($"{cards[i]} ");
+            //Console.Write($"{cards[i]} ");
         }
+        //Console.WriteLine();
     }
 
     static void DisplayBoard(int[] cards, bool[] revealed)
@@ -88,18 +110,13 @@ public class game
             }
         }
     }
-    static bool IsValidMove(int firstChoice, int secondChoice, bool[] revealed)
+    static bool IsValidMove(int position, bool[] revealed)
     {
-        if (revealed[firstChoice]== revealed[secondChoice])
-            return false;
-        else return true;
+        return position >= 0 && position < revealed.Length && !revealed[position];
     }
 
-    static bool CheckMatch(int firstChoice, int secondChoice, bool[] revealed)
+    static bool CheckMatch(int firstChoice, int secondChoice, int[] cards)
     {
-        if (revealed[firstChoice] == revealed[secondChoice])
-        return true;
-
-        else return false;
+         return cards[firstChoice] == cards[secondChoice];
     }
 }
