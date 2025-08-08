@@ -8,12 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="cppExample\예제1.cs" />
+    <Compile Remove="Example.cs" />
     <Compile Remove="game.cs" />
     <Compile Remove="MyArray.cs" />
     <Compile Remove="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="cppExample\예제1.cs" />
+    <None Include="Example.cs" />
     <None Include="game.cs" />
     <None Include="MyArray.cs" />
     <None Include="Program.cs" />
