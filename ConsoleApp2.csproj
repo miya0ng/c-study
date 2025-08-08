@@ -7,4 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="game.cs" />
+    <Compile Remove="MyArray.cs" />
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="game.cs" />
+    <None Include="MyArray.cs" />
+    <None Include="Program.cs" />
+  </ItemGroup>
+
 </Project>

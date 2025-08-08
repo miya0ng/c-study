@@ -1,13 +1,13 @@
 ﻿
-//Console.WriteLine("=== 기본 배열 연산 테스트 ===");
-//int[] array = { 10, 1, 2, 5, 3, -10 };
-//PrintArray(array);  // [10, 1, 2, 5, 3, -10]
+Console.WriteLine("=== 기본 배열 연산 테스트 ===");
+int[] array = { 10, 1, 2, 5, 3, -10 };
+PrintArray(array);  // [10, 1, 2, 5, 3, -10]
 
 //Console.WriteLine("\\n=== Reverse 테스트 ===");
 //MyArray.Reverse(array);
 //PrintArray(array);  // [-10, 3, 5, 2, 1, 10]
-//MyArray.Reverse(array, 1, 3);  // index 1부터 3개 요소만 뒤집기
-//PrintArray(array);  // [-10, 2, 5, 3, 1, 10]
+MyArray.Reverse(array, 1, 3);  // index 1부터 3개 요소만 뒤집기
+PrintArray(array);  // [-10, 2, 5, 3, 1, 10]
 
 //Console.WriteLine("\\n=== Fill 테스트 ===");
 //MyArray.Fill(array, 100, 1, 2);  // index 1부터 2개를 100으로 채움
@@ -38,14 +38,14 @@
 ////findIndex = MyArray.BinarySearch(array, 3);
 ////Console.WriteLine($"BinarySearch(3): {findIndex}");  // 4
 
-//static void PrintArray(int[] array)
-//{
-//    Console.Write("[");
-//    for (int i = 0; i < array.Length; i++)
-//    {
-//        Console.Write(array[i]);
-//        if (i < array.Length - 1)
-//            Console.Write(", ");
-//    }
-//    Console.WriteLine("]");
-//}
+static void PrintArray(int[] array)
+{
+    Console.Write("[");
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write(array[i]);
+        if (i < array.Length - 1)
+            Console.Write(", ");
+    }
+    Console.WriteLine("]");
+}
