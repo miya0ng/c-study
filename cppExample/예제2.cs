@@ -22,7 +22,6 @@ namespace ConsoleApp2.cppExample
             double e;
 
             Console.WriteLine($"{sizeof(char)}, {sizeof(short)}, {sizeof(int)}, {sizeof(float)}, {sizeof(double)}");
-
         }
     }
 }

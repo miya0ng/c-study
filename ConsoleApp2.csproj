@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Remove="cppExample\예제1.cs" />
+    <Compile Remove="cppExample\예제2.cs" />
     <Compile Remove="Example.cs" />
     <Compile Remove="game.cs" />
     <Compile Remove="MyArray.cs" />
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <None Include="cppExample\예제1.cs" />
+    <None Include="cppExample\예제2.cs" />
     <None Include="Example.cs" />
     <None Include="game.cs" />
     <None Include="MyArray.cs" />
