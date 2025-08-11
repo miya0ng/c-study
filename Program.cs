@@ -1,51 +1,110 @@
-﻿
-Console.WriteLine("=== 기본 배열 연산 테스트 ===");
-int[] array = { 10, 1, 2, 5, 3, -10 };
-PrintArray(array);  // [10, 1, 2, 5, 3, -10]
+﻿// 장비 초기화
+using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
-//Console.WriteLine("\\n=== Reverse 테스트 ===");
-//MyArray.Reverse(array);
-//PrintArray(array);  // [-10, 3, 5, 2, 1, 10]
-MyArray.Reverse(array, 1, 3);  // index 1부터 3개 요소만 뒤집기
-PrintArray(array);  // [-10, 2, 5, 3, 1, 10]
-
-//Console.WriteLine("\\n=== Fill 테스트 ===");
-//MyArray.Fill(array, 100, 1, 2);  // index 1부터 2개를 100으로 채움
-//PrintArray(array);  // [-10, 100, 100, 2, 1, 10]
-
-//Console.WriteLine("\\n=== Copy & Resize 테스트 ===");
-//int[] newArray = new int[array.Length];
-//MyArray.Copy(array, newArray, array.Length);
-//PrintArray(newArray);  // [-10, 100, 100, 2, 1, 10]
-//MyArray.Resize(ref newArray, 8);  // 크기를 8로 늘림
-//PrintArray(newArray);  // [-10, 100, 100, 2, 1, 10, 0, 0]
-
-//Console.WriteLine("\\n=== Clear 테스트 ===");
-//MyArray.Clear(newArray);  // 모든 요소를 0으로
-//PrintArray(newArray);  // [0, 0, 0, 0, 0, 0, 0, 0]
-
-//array = new int[] { 10, 1, 2, 5, 3, -10 };
-//MyArray.Clear(array, 1, 3);  // index 1부터 3개 요소를 0으로
-//PrintArray(array);  // [10, 0, 0, 0, 3, -10]
-
-//Console.WriteLine("\\n=== Sort & Search 테스트 ===");
-//MyArray.Sort(array);
-//PrintArray(array);  // [-10, 0, 0, 0, 3, 10]
-
-////int findIndex = MyArray.IndexOf(array, -10);
-////Console.WriteLine($"IndexOf(-10): {findIndex}");  // 0
-
-////findIndex = MyArray.BinarySearch(array, 3);
-////Console.WriteLine($"BinarySearch(3): {findIndex}");  // 4
-
-static void PrintArray(int[] array)
+List<Equipment> equipments = new List<Equipment>
 {
-    Console.Write("[");
-    for (int i = 0; i < array.Length; i++)
-    {
-        Console.Write(array[i]);
-        if (i < array.Length - 1)
-            Console.Write(", ");
+    new Equipment {
+        Name = "초보자의 검",
+        AttackBonus = 10,
+        RequiredLevel = 1,
+        Type = EquipmentType.Sword
+    },
+    new Equipment {
+        Name = "초보자의 지팡이",
+        AttackBonus = 15,
+        RequiredLevel = 1,
+        Type = EquipmentType.Staff
+    },
+    new Equipment {
+        Name = "초보자의 활",
+        AttackBonus = 12,
+        RequiredLevel = 1,
+        Type = EquipmentType.Bow
     }
-    Console.WriteLine("]");
+};
+
+// 캐릭터 생성 및 직업 선택
+Console.Write("캐릭터 이름을 입력하세요:");
+string name = Console.ReadLine();
+
+Character player = null;
+while (player == null)
+{
+    Console.WriteLine("\n직업을 선택하세요:");
+    Console.WriteLine("1. 전사");
+    Console.WriteLine("2. 마법사");
+    Console.WriteLine("3. 궁수");
+
+    switch (Console.ReadLine())
+    {
+        case "1":
+            player = new Warrior(name);
+            break;
+        case "2":
+            player = new Mage(name);
+            break;
+        case "3":
+            player = new Archer(name);
+            break;
+        default:
+            Console.WriteLine("잘못된 선택입니다.");
+            break;
+    }
+}
+
+// 게임 메인 루프
+while (true)
+{
+    Console.Clear();
+    Console.WriteLine("=== RPG 캐릭터 시스템 ===");
+    Console.WriteLine($"이름: {player} ({player.GetType().Name})");
+    Console.WriteLine("\n1. 경험치 획득");
+    Console.WriteLine("2. 장비 장착");
+    Console.WriteLine("3. 장비 해제");
+    Console.WriteLine("4. 특수 능력 사용");
+    Console.WriteLine("5. 종료");
+    Console.Write("\n선택: ");
+
+    switch (Console.ReadLine())
+    {
+        case "1":
+            Console.Write("획득할 경험치 입력: ");
+            if (int.TryParse(Console.ReadLine(), out int exp))
+                player.AddExp(exp);
+            break;
+
+        case "2":
+            Console.WriteLine("\n=== 장착 가능 장비 목록 ===");
+            for (int i = 0; i < equipments.Count; i++)
+                Console.WriteLine($"{i + 1}. {equipments[i]}");
+
+            Console.Write("\n장착할 장비 번호 선택: ");
+            if (int.TryParse(Console.ReadLine(), out int equipNum) &&
+                equipNum >= 1 && equipNum <= equipments.Count)
+            {
+                player.EquipItem(equipments[equipNum - 1]);
+            }
+            break;
+
+        case "3":
+            player.UnequipItem();
+            break;
+
+        case "4":
+            player.UseSpecialAbility();
+            break;
+
+        case "5":
+            return;
+    }
+
+    Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
+    Console.ReadKey(true);
+}
+public enum EquipmentType
+{
+    Sword,
+    Staff,
+    Bow
 }
