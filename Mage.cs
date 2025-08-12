@@ -6,17 +6,18 @@ public class Mage : Character
     {
         Level = 1;
         Exp = 0;
-        MaxHp = 100;
-        Hp = MaxHp;
-        MaxMp = 80;
-        Mp = MaxMp;
+        MaxHP = 100;
+        CurrentHP = MaxHP;
+        MaxMP = 80;
+        Mp = MaxMP;
         EquippedItem = null;
         Type = EquipmentType.Staff;
     }
-    public override void UseSpecialAbility()
+    public override void UseSpecialAbility(IDefender target)
     {
         if (Mp >= 20)
         {
+            target.TakeDamage(40);
             Console.WriteLine($"{Name}이(가) 파이어 볼을 사용했습니다!");
             Mp -= 20;
             if (Mp <= 0)
@@ -34,9 +35,9 @@ public class Mage : Character
     {
         Mp += 20;
         Level++;
-        if (Hp >= MaxHp)
+        if (CurrentHP >= MaxHP)
         {
-            Hp = MaxHp;
+            CurrentHP = MaxHP;
         }
     }
 }

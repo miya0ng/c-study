@@ -1,24 +1,29 @@
-﻿public class Character
+﻿public class Character : IAttacker, IDefender
 {
     public string Name { get; init; }
     public int Level { get; set; }
     public int Exp { get; set; }
-    public int MaxHp { get; set; }
-    public int Hp { get; set; }
-    public int MaxMp { get; set; }
+    public int MaxMP { get; set; }
     public int Mp { get; set; }
     public EquipmentType Type { get; set; }
     public Equipment? ReadOnlyEquippedItem { get { return EquippedItem; } }
     public Equipment? EquippedItem { get; set; }
+
+    public int AttackPower { get; set; }
+    public int CurrentHP { get; set; }
+    public int MaxHP { get; set; }
+    public bool IsDead => 0 >= CurrentHP;
+
+    public CharacterStatus currentStatus {  get; set; }
     public Character(string name)
     {
         Name = name;
         Level = 1;
         Exp = 0;
-        MaxHp = 0;
-        MaxHp = 0;
-        Hp = MaxHp;
-        Mp = MaxMp;
+        MaxMP = 0;
+        MaxHP = 0;
+        CurrentHP = MaxHP;
+        Mp = MaxMP;
         EquippedItem = null;
     }
     public void AddExp(int exp)
@@ -53,7 +58,7 @@
             return;
         }
 
-        if(Type != item.Type)
+        if (Type != item.Type)
         {
             Console.WriteLine("타입에 맞지 않는 무기를 장착 할 수 없습니다.");
             return;
@@ -90,15 +95,26 @@
     }
     public override string ToString()
     {
-        return $"캐릭터: {Name} (레벨: {Level}, 경험치: {Exp}/1000)\nHP: {Hp}/{MaxHp}, MP: {Mp}/{MaxMp}\n장착 장비: {(ReadOnlyEquippedItem != null ? ReadOnlyEquippedItem.Name : "없음")}";
+        return $"캐릭터: {Name} (레벨: {Level}, 경험치: {Exp}/1000)\nHP: {CurrentHP}/{MaxHP}, MP: {Mp}/{MaxMP}\n장착 장비: {(ReadOnlyEquippedItem != null ? ReadOnlyEquippedItem.Name : "없음")}";
     }
 
-    public virtual void UseSpecialAbility()
+    public virtual void UseSpecialAbility(IDefender target)
     {
 
     }
     protected virtual void OnLevelUp()
     {
 
+    }
+
+    public void Attack(IDefender target)
+    {
+        target.TakeDamage(10);
+
+    }
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHP -= damage;
     }
 }
